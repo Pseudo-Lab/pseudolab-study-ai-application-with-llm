@@ -1,0 +1,14 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /plp
+
+spring:
+  application:
+    name: plp
+  ai:
+    openai:
+      api-key: todo_api_key
+      chat:
+        options:
+          model: gpt-3.5-turbo
