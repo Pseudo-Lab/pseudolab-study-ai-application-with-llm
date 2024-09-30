@@ -1,13 +1,16 @@
 import os
+
 import requests
 from dotenv import load_dotenv
 from fastapi import HTTPException
+from services.utils import create_full_prompt
 
 # 환경 변수 로드
 load_dotenv()
 
 # Hugging Face API 토큰 불러오기
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+
 
 # Hugging Face API 호출 함수 정의
 def get_huggingface_completion(prompt: str, example_inputs: list, example_outputs: list, language: str):
@@ -18,11 +21,7 @@ def get_huggingface_completion(prompt: str, example_inputs: list, example_output
     }
 
     # 프롬프트 구성
-    full_prompt = f"Write a concise {language} function to solve the following problem: {prompt}\n"
-    if example_inputs:
-        full_prompt += f"Example inputs: {example_inputs}\n"
-    if example_outputs:
-        full_prompt += f"Example outputs: {example_outputs}\n"
+    full_prompt = create_full_prompt(prompt, example_inputs, example_outputs, language)
 
     payload = {
         "inputs": full_prompt
