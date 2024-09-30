@@ -1,77 +1,30 @@
-import os
-import requests
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from dotenv import load_dotenv
-
-# 환경 변수 로드
-load_dotenv()
-
-# OpenAI API 키 불러오기
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+from models.request_model import DynamicPromptRequest
+from services.openai_service import get_chat_completion
 
 # FastAPI 인스턴스 생성
 app = FastAPI()
 
-
-# 요청 데이터 모델 정의
-class CodeRequest(BaseModel):
-    prompt: str
-    example_inputs: list = []
-    example_outputs: list = []
-    language: str = "Python"  # 기본 언어는 Python으로 설정
-    max_tokens: int = 100
-
-
-# OpenAI Chat Completion API 호출 함수
-def get_chat_completion(prompt: str, max_tokens: int, example_inputs: list, example_outputs: list, language: str):
-    url = "https://api.openai.com/v1/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {OPENAI_API_KEY}",
-        "Content-Type": "application/json"
-    }
-
-    # 프롬프트와 예시 데이터를 포함한 메시지 구성
-    full_prompt = (
-        f"Generate {language} code based on the following problem:\n"
-        f"{prompt}\n"
-        f"Example inputs: {example_inputs}\n"
-        f"Example outputs: {example_outputs}\n"
-    )
-
-    data = {
-        "model": "gpt-3.5-turbo",  # 최신 모델로 변경
-        "messages": [
-            {"role": "user", "content": full_prompt}
-        ],
-        "max_tokens": max_tokens
-    }
-
-    response = requests.post(url, headers=headers, json=data)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise HTTPException(status_code=response.status_code, detail="Chat API 호출 오류: " + response.text)
-
-
 # 코드 생성 요청 엔드포인트
 @app.post("/generate-code/")
-async def generate_code(request: CodeRequest):
+async def generate_code(request: DynamicPromptRequest):
     try:
-        # ChatGPT API 호출
+        # OpenAI 서비스 호출
         chat_response = get_chat_completion(
             request.prompt,
             request.max_tokens,
-            request.example_inputs,
-            request.example_outputs,
-            request.language
+            {
+                "example_inputs": request.example_inputs,
+                "example_outputs": request.example_outputs,
+                "language": request.language,
+                "additional_data": request.additional_data
+            }
         )
         # ChatGPT에서 반환된 코드 추출
         code_output = chat_response["choices"][0]["message"]["content"]
         return {"generated_code": code_output.strip()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"코드 생성 중 오류 발생: {str(e)}")
-
 
 # 기본 엔드포인트 확인
 @app.get("/")
