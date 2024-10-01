@@ -1,5 +1,5 @@
 # 9th-pseudolab-study-ai-applcation-with-llm
-
+test
 ## 프로젝트 소개
 - [LLM을 활용한 실전 AI 애플리케이션 개발](https://www.aladin.co.kr/m/mproduct.aspx?ItemId=343185652) 을 읽고 얘기해보는 스터디
 - 함께 작은 AI 애플리케이션을 만들어보기(예: 해커톤 출품. 뚜렷한 등수를 목표하지 않습니다!)
