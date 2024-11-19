@@ -72,7 +72,7 @@ git 명령어를 잘 알아야 함
     
     ![2](https://github.com/user-attachments/assets/e528cf08-4eb1-425d-91c0-309cd08ac818)
    
-5. dvc 파일 내용 확인: md5, 크기, 개수
+4. dvc 파일 내용 확인: md5, 크기, 개수
 
     ![3](https://github.com/user-attachments/assets/274d1724-e64c-4208-82cb-ce0e8fffe6f9)
 
@@ -80,7 +80,7 @@ git 명령어를 잘 알아야 함
     
     ![4](https://github.com/user-attachments/assets/a8dcb9a1-0955-4092-ae1c-f80e4285c711)
    
-7. 파일 확인 후 이전 버전 불러오기
+6. 파일 확인 후 이전 버전 불러오기
     
     ![5](https://github.com/user-attachments/assets/2920322b-40af-4274-a4f3-1bf0aefe6718)
    
@@ -88,7 +88,7 @@ git 명령어를 잘 알아야 함
     
     ![6](https://github.com/user-attachments/assets/7b42ff38-3159-4013-82b0-425c62e2d747)
    
-9. dvc push → 원격 저장소에 변경 분 저장
+8. dvc push → 원격 저장소에 변경 분 저장
 
     ![7](https://github.com/user-attachments/assets/cf98f819-10ed-49ac-b3bb-2d6353e6782c)
   
